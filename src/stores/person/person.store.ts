@@ -27,8 +27,8 @@ export const usePersonStore = create<PersonState & Actions>()(
     devtools(
       persist(storeApi, {
         name: "person-store",
-        //storage: customSessionStorage,
-        storage: customFirebaseStorage,
+        storage: customSessionStorage,
+        //storage: customFirebaseStorage,
       })
     )
   )
