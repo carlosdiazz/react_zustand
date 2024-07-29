@@ -1,5 +1,5 @@
 import { create, StateCreator } from "zustand";
-import { devtools } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 import { v4 as uuidV4 } from "uuid";
 //import { produce } from "immer";
 
@@ -49,15 +49,12 @@ const storeApi: StateCreator<TaskState, [["zustand/immer", never]]> = (
   },
 
   changeTaksStatus: (taskId: string, status: TaskStatus) => {
-    const task = get().tasks[taskId];
-    task.status = status;
+    //const task = get().tasks[taskId];
+    //task.status = status;
 
-    set((state) => ({
-      tasks: {
-        ...state.tasks,
-        [taskId]: task,
-      },
-    }));
+    set((state) => {
+      state.tasks[taskId].status = status;
+    });
 
     //set((state) => ({
     //  tasks: {
@@ -98,4 +95,6 @@ const storeApi: StateCreator<TaskState, [["zustand/immer", never]]> = (
   },
 });
 
-export const useTaskStore = create<TaskState>()(devtools(immer(storeApi)));
+export const useTaskStore = create<TaskState>()(
+  persist(devtools(immer(storeApi)), { name: "task-store" })
+);
