@@ -10,7 +10,6 @@ const storageApi: StateStorage = {
     return null;
   },
   removeItem: function (name: string): unknown | Promise<unknown> {
-    console.log(name);
     return null;
   },
 };

@@ -1,6 +1,7 @@
 import { create, StateCreator } from "zustand";
-import { persist } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 import { customFirebaseStorage, customSessionStorage } from "../storages";
+import { logger } from "../middlewares/logger.middleware";
 
 interface PersonState {
   firstName: string;
@@ -22,9 +23,13 @@ const storeApi: StateCreator<PersonState & Actions> = (set) => ({
 
 export const usePersonStore = create<PersonState & Actions>()(
   //Este middleware es para almacenar la informacion en el localStorage
-  persist(storeApi, {
-    name: "person-store",
-    //storage: customSessionStorage,
-    storage: customFirebaseStorage,
-  })
+  logger(
+    devtools(
+      persist(storeApi, {
+        name: "person-store",
+        //storage: customSessionStorage,
+        storage: customFirebaseStorage,
+      })
+    )
+  )
 );
