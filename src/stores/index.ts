@@ -7,3 +7,5 @@ export * from "./middlewares/logger.middleware";
 export * from "./tasks/task.store";
 
 export * from "./wedding/";
+
+export * from "./auth/auth.store";
